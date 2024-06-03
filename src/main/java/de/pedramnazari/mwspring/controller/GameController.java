@@ -1,8 +1,8 @@
-package com.example.mwspring.controller;
+package de.pedramnazari.mwspring.controller;
 
-import com.example.mwspring.model.Board;
-import com.example.mwspring.model.Cell;
-import com.example.mwspring.service.GameService;
+import de.pedramnazari.mwspring.model.Board;
+import de.pedramnazari.mwspring.model.Cell;
+import de.pedramnazari.mwspring.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
