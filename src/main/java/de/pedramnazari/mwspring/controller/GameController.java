@@ -1,6 +1,6 @@
 package de.pedramnazari.mwspring.controller;
 
-import de.pedramnazari.mwspring.model.Board;
+import de.pedramnazari.mwspring.model.Game;
 import de.pedramnazari.mwspring.model.Cell;
 import de.pedramnazari.mwspring.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping("/start")
-    public ResponseEntity<Board> startGame(@RequestParam int rows, @RequestParam int columns, @RequestParam int mines) {
-        Board board = new Board(rows, columns);
-        logger.log(Level.INFO, "Gut");
-        board = gameService.startGame(board, mines);
-        printBoard(board.getCells());
-        return ResponseEntity.ok(board);
+    public ResponseEntity<Game> startGame(@RequestParam int rows, @RequestParam int columns, @RequestParam int mines) {
+        Game game = new Game(rows, columns);
+        logger.log(Level.INFO, "Start Game");
+        game = gameService.startGame(game, mines);
+        printBoard(game.getBoard());
+        return ResponseEntity.ok(game);
     }
 
     public static void printBoard(Cell[][] cells) {
@@ -47,12 +47,12 @@ public class GameController {
     }
 
     @GetMapping("/reveal")
-    public ResponseEntity<Board> revealCell(@RequestParam int row, @RequestParam int column) {
+    public ResponseEntity<Game> revealCell(@RequestParam int row, @RequestParam int column) {
         return ResponseEntity.ok(gameService.revealCell(row, column));
     }
 
     @PostMapping("/flag")
-    public Board toggleCell(@RequestParam int row, @RequestParam int column) {
+    public Game toggleCell(@RequestParam int row, @RequestParam int column) {
         return gameService.toggleFlag(row, column);
     }
 }

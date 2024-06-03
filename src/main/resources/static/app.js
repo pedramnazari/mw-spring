@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             console.log(data); // Ausgabe der empfangenen Daten
-            renderBoard(data.cells);
+            renderGame(data.board);
         });
 
-    function renderBoard(board) {
-        console.log(board); // Ausgabe des Spielfelds
+    function renderGame(game) {
+        console.log(game); // Ausgabe des Spielfelds
         gameContainer.innerHTML = "";
-        board.forEach((row, rowIndex) => {
+        game.forEach((row, rowIndex) => {
             const rowDiv = document.createElement("div");
             row.forEach((cell, colIndex) => {
                 const cellDiv = document.createElement("div");
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => response.json())
             .then(data => {
-                renderBoard(data.cells);
+                renderGame(data.board);
             });
     }
 });

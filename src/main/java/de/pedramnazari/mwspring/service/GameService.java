@@ -1,6 +1,6 @@
 package de.pedramnazari.mwspring.service;
 
-import de.pedramnazari.mwspring.model.Board;
+import de.pedramnazari.mwspring.model.Game;
 import de.pedramnazari.mwspring.model.Cell;
 import org.springframework.stereotype.Service;
 
@@ -8,10 +8,15 @@ import java.util.Random;
 
 @Service
 public class GameService {
-    private static final int[] DX = {-1, -1, -1, 0, 0, 1, 1, 1};
-    private static final int[] DY = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-    private Board board;
+    // Movements in all 8 directions
+    private static final int[][] DIRECTIONS = {
+            {-1, -1},   { 0, -1},   { 1, -1},
+            {-1, 0},                { 1, 0},
+            {-1, 1},    { 0, 1},    { 1, 1}
+    };
+
+    private Game game;
 
     public static void printBoard(Cell[][] cells) {
         for (int y = 0; y < cells[0].length; y++) {
@@ -31,25 +36,25 @@ public class GameService {
         }
     }
 
-    public Board startGame(Board board, int mineCount) {
-        this.board = board;
+    public Game startGame(Game game, int mineCount) {
+        this.game = game;
 
         initializeBoard();
         placeMines(mineCount);
         calculateAdjacentMines();
 
-        return board;
+        return game;
     }
 
     void initializeBoard() {
-        for (int x = 0; x < board.getWidth(); x++) {
+        for (int x = 0; x < game.getWidth(); x++) {
             initializeRow(x);
         }
     }
 
     void initializeRow(int x) {
-        for (int y = 0; y < board.getHeight(); y++) {
-            board.setCell(x, y, new Cell());
+        for (int y = 0; y < game.getHeight(); y++) {
+            game.setCell(x, y, new Cell());
         }
     }
 
@@ -57,21 +62,21 @@ public class GameService {
         Random random = new Random();
         int placedMines = 0;
         while (placedMines < mineCount) {
-            int x = random.nextInt(board.getWidth());
-            int y = random.nextInt(board.getHeight());
-            if (!board.getCell(x,y).isMine()) {
-                board.getCell(x,y).setMine(true);
+            int x = random.nextInt(game.getWidth());
+            int y = random.nextInt(game.getHeight());
+            if (!game.getCell(x,y).isMine()) {
+                game.getCell(x,y).setMine(true);
                 placedMines++;
             }
         }
     }
 
     private void calculateAdjacentMines() {
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                if (!board.getCell(x, y).isMine()) {
+        for (int x = 0; x < game.getWidth(); x++) {
+            for (int y = 0; y < game.getHeight(); y++) {
+                if (!game.getCell(x, y).isMine()) {
                     int adjacentMines = countAdjacentMines(x, y);
-                    board.getCell(x, y).setAdjacentMines(adjacentMines);
+                    game.getCell(x, y).setAdjacentMines(adjacentMines);
                 }
             }
         }
@@ -79,10 +84,11 @@ public class GameService {
 
     private int countAdjacentMines(int x, int y) {
         int count = 0;
-        for (int i = 0; i < DX.length; i++) {
-            int nx = x + DX[i];
-            int ny = y + DY[i];
-            if (isWithinBounds(nx, ny) && board.getCell(nx, ny).isMine()) {
+
+        for (int[] direction : DIRECTIONS) {
+            int nx = x + direction[0];
+            int ny = y + direction[1];
+            if (isWithinBounds(nx, ny) && game.getCell(nx, ny).isMine()) {
                 count++;
             }
         }
@@ -90,15 +96,15 @@ public class GameService {
     }
 
     private boolean isWithinBounds(int x, int y) {
-        return ((x >= 0) && (y >= 0) && (x < board.getWidth()) && (y < board.getHeight()));
+        return ((x >= 0) && (y >= 0) && (x < game.getWidth()) && (y < game.getHeight()));
     }
 
-    public Board revealCell(int x, int y) {
-        if (!isWithinBounds(x, y) || board.getCell(x, y).isRevealed() || board.getCell(x, y).isFlagged()) {
-            return board;
+    public Game revealCell(int x, int y) {
+        if (!isWithinBounds(x, y) || game.getCell(x, y).isRevealed() || game.getCell(x, y).isFlagged()) {
+            return game;
         }
 
-        Cell cell = board.getCell(x, y);
+        Cell cell = game.getCell(x, y);
         cell.setRevealed(true);
 
         if (cell.isMine()) {
@@ -108,37 +114,37 @@ public class GameService {
         } else if (cell.getAdjacentMines() == 0) {
             revealAdjacentCells(x, y);
         }
-        return board;
+        return game;
     }
 
      private void handleMineRevealed() {
-        board.setGameOver(true);
+        game.setGameOver(true);
     }
 
     private void handleWin() {
-        board.setGameWon(true);
+        game.setGameWon(true);
     }
 
     private void revealAdjacentCells(int x, int y) {
-        for (int i = 0; i < DX.length; i++) {
-            int nx = x + DX[i];
-            int ny = y + DY[i];
+        for (int direction[] : DIRECTIONS) {
+            int nx = x + direction[0];
+            int ny = y + direction[1];
             revealCell(nx, ny);
         }
     }
 
-    public Board toggleFlag(int x, int y) {
-        if (isWithinBounds(x, y) && !board.getCell(x, y).isRevealed()) {
-            board.getCell(x, y).setFlagged(!board.getCell(x, y).isFlagged());
+    public Game toggleFlag(int x, int y) {
+        if (isWithinBounds(x, y) && !game.getCell(x, y).isRevealed()) {
+            game.getCell(x, y).setFlagged(!game.getCell(x, y).isFlagged());
         }
 
-        return board;
+        return game;
     }
 
     boolean allNonMineCellsRevealed() {
-        for (int x = 0; x < board.getWidth(); x++) {
-            for (int y = 0; y < board.getHeight(); y++) {
-                if (!board.getCell(x, y).isMine() && !board.getCell(x, y).isRevealed()) {
+        for (int x = 0; x < game.getWidth(); x++) {
+            for (int y = 0; y < game.getHeight(); y++) {
+                if (!game.getCell(x, y).isMine() && !game.getCell(x, y).isRevealed()) {
                     return false;
                 }
             }
@@ -150,11 +156,13 @@ public class GameService {
         if (!isWithinBounds(x, y)) {
             return;
         }
-        board.getCell(x, y).setMine(true);
+        game.getCell(x, y).setMine(true);
+
+        // TODO adjacent mines of cell must be updated as well (see Cell.getAdjacentMines())
     }
 
     public int countMines() {
-        return board.countMines();
+        return game.countMines();
     }
 
 }
