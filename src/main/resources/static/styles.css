@@ -1,0 +1,58 @@
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold; /* Text in fetter Schrift */
+}
+
+.cell.revealed {
+    background-color: #ddd;
+    cursor: default;
+}
+
+.cell.mine {
+    background-color: red;
+    color: white;
+}
+
+.cell-0 {
+    color: black;
+}
+
+.cell-1 {
+    color: blue;
+}
+
+.cell-2 {
+    color: green;
+}
+
+.cell-3 {
+    color: red;
+}
+
+.cell-4 {
+    color: purple;
+}
+
+.cell-5 {
+    color: maroon;
+}
+
+.cell-6 {
+    color: turquoise;
+}
+
+.cell-7 {
+    color: black;
+}
+
+.cell-8 {
+    color: gray;
+}
