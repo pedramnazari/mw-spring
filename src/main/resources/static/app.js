@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const gameContainer = document.getElementById("game-container");
 
     // Initialisiere das Spiel
-    fetch("/api/game/start?rows=10&columns=10&mines=70", {
+    fetch("/api/game/start?rows=10&columns=10&mines=25", {
         method: "GET"
     })
         .then(response => response.json())
