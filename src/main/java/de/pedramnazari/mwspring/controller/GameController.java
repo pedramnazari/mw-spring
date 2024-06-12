@@ -22,8 +22,7 @@ public class GameController {
     @GetMapping("/start")
     public ResponseEntity<Game> startGame(@RequestParam int rows, @RequestParam int columns, @RequestParam int mines) {
         logger.log(Level.INFO, "Start the Game: " + rows + " x " + columns + " mines: " + mines);
-        Game game = new Game(rows, columns);
-        game = gameService.startGame(game, mines);
+        Game game = gameService.startGame(rows, columns, mines);
         printBoard(game.getBoard());
         return ResponseEntity.ok(game);
     }

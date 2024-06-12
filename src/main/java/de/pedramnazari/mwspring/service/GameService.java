@@ -36,30 +36,34 @@ public class GameService {
         }
     }
 
-    public Game startGame(Game game, int mineCount) {
-        this.game = game;
+    public Game startGame(int rows, int columns, int mineCount) {
+        // TODO: use factory method pattern and dependency injection
+        final Game g = new Game(rows, columns);
 
-        initializeBoard();
-        placeMines(mineCount);
-        calculateAdjacentMines();
+        // TODO: delete field "game"
+        this.game = g;
+
+        initializeBoard(game);
+        placeMines(game, mineCount);
+        calculateAdjacentMines(game);
 
         return game;
     }
 
-    void initializeBoard() {
+    void initializeBoard(final Game game) {
         for (int x = 0; x < game.getWidth(); x++) {
-            initializeRow(x);
+            initializeRow(game, x);
         }
     }
 
-    void initializeRow(int x) {
+    void initializeRow(final Game game, int x) {
         for (int y = 0; y < game.getHeight(); y++) {
             game.setCell(x, y, new Cell());
         }
     }
 
-    void placeMines(int mineCount) {
-        Random random = new Random();
+    void placeMines(final Game game, int mineCount) {
+        final Random random = new Random();
         int placedMines = 0;
         while (placedMines < mineCount) {
             int x = random.nextInt(game.getWidth());
@@ -71,36 +75,36 @@ public class GameService {
         }
     }
 
-    private void calculateAdjacentMines() {
+    private void calculateAdjacentMines(final Game game) {
         for (int x = 0; x < game.getWidth(); x++) {
             for (int y = 0; y < game.getHeight(); y++) {
                 if (!game.getCell(x, y).isMine()) {
-                    int adjacentMines = countAdjacentMines(x, y);
+                    int adjacentMines = countAdjacentMines(game, x, y);
                     game.getCell(x, y).setAdjacentMines(adjacentMines);
                 }
             }
         }
     }
 
-    private int countAdjacentMines(int x, int y) {
+    private int countAdjacentMines(final Game game, int x, int y) {
         int count = 0;
 
         for (int[] direction : DIRECTIONS) {
             int nx = x + direction[0];
             int ny = y + direction[1];
-            if (isWithinBounds(nx, ny) && game.getCell(nx, ny).isMine()) {
+            if (isWithinBounds(game, nx, ny) && game.getCell(nx, ny).isMine()) {
                 count++;
             }
         }
         return count;
     }
 
-    private boolean isWithinBounds(int x, int y) {
+    private boolean isWithinBounds(final Game game, int x, int y) {
         return ((x >= 0) && (y >= 0) && (x < game.getWidth()) && (y < game.getHeight()));
     }
 
     public Game revealCell(int x, int y) {
-        if (!isWithinBounds(x, y) || game.getCell(x, y).isRevealed() || game.getCell(x, y).isFlagged()) {
+        if (!isWithinBounds(game, x, y) || game.getCell(x, y).isRevealed() || game.getCell(x, y).isFlagged()) {
             return game;
         }
 
@@ -134,7 +138,7 @@ public class GameService {
     }
 
     public Game toggleFlag(int x, int y) {
-        if (isWithinBounds(x, y) && !game.getCell(x, y).isRevealed()) {
+        if (isWithinBounds(game, x, y) && !game.getCell(x, y).isRevealed()) {
             game.getCell(x, y).setFlagged(!game.getCell(x, y).isFlagged());
         }
 
@@ -153,7 +157,7 @@ public class GameService {
     }
 
     void placeMine(int x, int y) {
-        if (!isWithinBounds(x, y)) {
+        if (!isWithinBounds(game, x, y)) {
             return;
         }
         game.getCell(x, y).setMine(true);
