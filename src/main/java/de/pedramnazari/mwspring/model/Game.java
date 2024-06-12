@@ -4,15 +4,11 @@ import java.util.Arrays;
 
 public class Game {
     private final Cell[][] board;
-    private final int width;
-    private final int height;
     private boolean gameOver;
     private boolean gameWon;
 
-    public Game(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.board = new Cell[width][height];
+    public Game(int rows, int columns) {
+        this.board = new Cell[columns][rows];
     }
 
     public void setCell(int x, int y, Cell cell) {
@@ -27,12 +23,12 @@ public class Game {
         return board[x][y];
     }
 
-    public int getWidth() {
-        return width;
+    public int getColumns() {
+        return board.length;
     }
 
-    public int getHeight() {
-        return height;
+    public int getRows() {
+        return board[0].length;
     }
 
     public int getMineCount() {
@@ -52,7 +48,7 @@ public class Game {
     }
 
     private boolean isWithinBounds(int x, int y) {
-        return ((x >= 0) && (y >= 0) && (x < width) && (y < height));
+        return ((x >= 0) && (y >= 0) && (x < getColumns()) && (y < getRows()));
     }
 
     public Cell[][] getBoard() {
