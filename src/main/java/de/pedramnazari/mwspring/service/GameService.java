@@ -23,14 +23,6 @@ public class GameService {
 
     private Game game;
 
-    public static void printCell(Cell cell) {
-        if (cell.isMine()) {
-                System.out.print("M");
-        } else {
-            System.out.print(cell.isFlagged() ? "F" : ".");
-        }
-    }
-
     public Game startGame(int rows, int columns, int mineCount) {
         // TODO: add checks
 
@@ -131,7 +123,7 @@ public class GameService {
     }
 
     private void revealAdjacentCells(int x, int y) {
-        for (int direction[] : DIRECTIONS) {
+        for (int[] direction : DIRECTIONS) {
             int nx = x + direction[0];
             int ny = y + direction[1];
             revealCell(nx, ny);
