@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MW-Spring</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <h1>MW-Spring</h1>
+<div>
+    <label for="rows">Rows:</label>
+    <input type="number" id="rows" name="rows" value="10">
+    <label for="columns">Columns:</label>
+    <input type="number" id="columns" name="columns" value="10">
+    <label for="mines">Mines:</label>
+    <input type="number" id="mines" name="mines" value="25">
+    <button onclick="startGame()">Start Game</button>
+</div>
 <div id="game-container"></div>
 <script src="app.js"></script>
 </body>

@@ -14,24 +14,23 @@ import java.util.logging.Logger;
 @RequestMapping("/api/game")
 public class GameController {
 
-    Logger logger = Logger.getLogger(GameController.class.getName());
+   final Logger logger = Logger.getLogger(GameController.class.getName());
 
     @Autowired
     private GameService gameService;
 
     @GetMapping("/start")
     public ResponseEntity<Game> startGame(@RequestParam int rows, @RequestParam int columns, @RequestParam int mines) {
-        Game game = new Game(rows, columns);
-        logger.log(Level.INFO, "Start the Game");
-        game = gameService.startGame(game, mines);
+        logger.log(Level.INFO, "Start the Game: " + rows + " x " + columns + " mines: " + mines);
+        Game game = gameService.startGame(rows, columns, mines);
         printBoard(game.getBoard());
         return ResponseEntity.ok(game);
     }
 
     public static void printBoard(Cell[][] cells) {
-        for (int x = 0; x < cells.length; x++) {
-            for (int y = 0; y < cells[x].length; y++) {
-                printCell(cells[x][y]);
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                printCell(value);
                 System.out.print(" ");
             }
             System.out.println();
