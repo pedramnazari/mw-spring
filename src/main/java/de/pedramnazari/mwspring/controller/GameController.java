@@ -51,7 +51,7 @@ public class GameController {
     }
 
     @PostMapping("/flag")
-    public Game toggleCell(@RequestParam int row, @RequestParam int column) {
+    public Game toggleFlag(@RequestParam int row, @RequestParam int column) {
         return gameService.toggleFlag(row, column);
     }
 }
