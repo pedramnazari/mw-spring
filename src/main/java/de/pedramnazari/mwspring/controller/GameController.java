@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @RequestMapping("/api/game")
 public class GameController {
 
-    Logger logger = Logger.getLogger(GameController.class.getName());
+   final Logger logger = Logger.getLogger(GameController.class.getName());
 
     @Autowired
     private GameService gameService;

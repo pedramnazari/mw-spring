@@ -1,6 +1,10 @@
 package de.pedramnazari.mwspring.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game {
     private final Cell[][] board;
@@ -31,23 +35,7 @@ public class Game {
         return board[0].length;
     }
 
-    public int getMineCount() {
-        return countMines();
-    }
-
-    public int countMines() {
-        int mineCount = 0;
-        for (int x = 0; x < board.length; x++) {
-            for (int y = 0; y < board[x].length; y++) {
-                if (board[x][y].isMine()) {
-                    mineCount++;
-                }
-            }
-        }
-        return mineCount;
-    }
-
-    private boolean isWithinBounds(int x, int y) {
+    public boolean isWithinBounds(int x, int y) {
         return ((x >= 0) && (y >= 0) && (x < getColumns()) && (y < getRows()));
     }
 
@@ -69,5 +57,19 @@ public class Game {
 
     public boolean isGameWon() {
         return this.gameWon;
+    }
+
+    public List<Cell> getMines() {
+        final List<Cell> mineCells = new ArrayList<>();
+        
+        for (Cell[] cells : board) {
+            for (Cell cell : cells) {
+                if (cell.isMine()) {
+                    mineCells.add(cell);
+                }
+            }
+        }
+
+        return mineCells;
     }
 }

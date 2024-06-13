@@ -1,12 +1,18 @@
 package de.pedramnazari.mwspring.model;
 
 public class Cell {
+    private final int x;
+    private final int y;
+
     private boolean isMine;
     private boolean isRevealed;
     private boolean isFlagged;
     private int adjacentMines;
 
-    public Cell() {
+    public Cell(int x, int y) {
+        this.x = x;
+        this.y = y;
+
         this.isMine = false;
         this.isRevealed = false;
         this.isFlagged = false;
@@ -45,4 +51,11 @@ public class Cell {
         this.adjacentMines = adjacentMines;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

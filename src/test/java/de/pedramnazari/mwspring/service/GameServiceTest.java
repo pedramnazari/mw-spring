@@ -5,12 +5,14 @@ import de.pedramnazari.mwspring.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
-    public static final int ROWS = 9;
-    public static final int COLUMNS = 10;
-    public static final int MINES = 25;
+    private static final int ROWS = 9;
+    private static final int COLUMNS = 10;
+    private static final int MINES = 25;
 
     private GameService gameService;
 
@@ -26,7 +28,7 @@ public class GameServiceTest {
         assertNotNull(game);
         assertEquals(ROWS, game.getRows());
         assertEquals(COLUMNS, game.getColumns());
-        assertEquals(MINES, game.getMineCount());
+        assertEquals(MINES, game.getMines().size());
 
         // Test that board is fully filled with cells
         // that are neither revealed nor flagged
@@ -35,6 +37,8 @@ public class GameServiceTest {
             for (int j = 0; j < ROWS; j++) {
                 Cell cell = board[i][j];
                 assertNotNull(cell);
+                assertEquals(i, cell.getX());
+                assertEquals(j, cell.getY());
                 assertFalse(cell.isFlagged());
                 assertFalse(cell.isRevealed());
             }
@@ -73,6 +77,46 @@ public class GameServiceTest {
         gameService.revealCell(4, 5);
         assertTrue(cell.isRevealed());
     }
+
+    @Test
+    public void testGameLost() {
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        assertNotNull(game);
+
+        assertFalse(game.isGameOver());
+        assertFalse(game.isGameWon());
+
+        final List<Cell> mineCells = game.getMines();
+        assertEquals(MINES, mineCells.size());
+
+        Cell firstMineCell = mineCells.get(0);
+
+        gameService.revealCell(firstMineCell.getX(), firstMineCell.getY());
+        assertTrue(game.isGameOver());
+        assertFalse(game.isGameWon());
+    }
+
+
+    @Test
+    public void testGameWon() {
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        assertNotNull(game);
+
+        assertFalse(game.isGameOver());
+        assertFalse(game.isGameWon());
+
+        for (Cell[] cells : game.getBoard()) {
+            for (Cell cell : cells) {
+                if (!cell.isMine()) {
+                    gameService.revealCell(cell.getX(), cell.getY());
+                }
+            }
+        }
+
+        assertTrue(game.isGameOver());
+        assertTrue(game.isGameWon());
+    }
+
 
 
 

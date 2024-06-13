@@ -5,9 +5,14 @@ import de.pedramnazari.mwspring.model.Cell;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class GameService {
+
+    // TODO: Remove dependency on logger to maintain clean architecture
+    final Logger logger = Logger.getLogger(GameService.class.getName());
 
     // Movements in all 8 directions
     private static final int[][] DIRECTIONS = {
@@ -60,7 +65,7 @@ public class GameService {
 
     void initializeRow(final Game game, int x) {
         for (int y = 0; y < game.getRows(); y++) {
-            game.setCell(x, y, new Cell());
+            game.setCell(x, y, new Cell(x, y));
         }
     }
 
@@ -94,7 +99,7 @@ public class GameService {
         for (int[] direction : DIRECTIONS) {
             int nx = x + direction[0];
             int ny = y + direction[1];
-            if (isWithinBounds(game, nx, ny) && game.getCell(nx, ny).isMine()) {
+            if (game.isWithinBounds(nx, ny) && game.getCell(nx, ny).isMine()) {
                 count++;
             }
         }
@@ -102,16 +107,11 @@ public class GameService {
     }
 
 
-    private boolean isWithinBounds(final Game game, int x, int y) {
-        return isWithinBounds(game.getRows(), game.getColumns(), x, y);
-    }
-
-    private boolean isWithinBounds(int rows, int columns, int x, int y) {
-        return ((x >= 0) && (y >= 0) && (x < game.getColumns()) && (y < game.getRows()));
-    }
-
     public Game revealCell(int x, int y) {
-        if (!isWithinBounds(game, x, y) || game.getCell(x, y).isRevealed() || game.getCell(x, y).isFlagged()) {
+        if (game.isGameOver()
+                || !game.isWithinBounds(x, y)
+                || game.getCell(x, y).isRevealed()
+                || game.getCell(x, y).isFlagged()) {
             return game;
         }
 
@@ -130,10 +130,14 @@ public class GameService {
 
      private void handleMineRevealed() {
         game.setGameOver(true);
+        game.setGameWon(false);
+         logger.log(Level.INFO, "Game Over. Game Lost!");
     }
 
     private void handleWin() {
+        game.setGameOver(true);
         game.setGameWon(true);
+        logger.log(Level.INFO, "Game Over. Game Won!");
     }
 
     private void revealAdjacentCells(int x, int y) {
@@ -145,7 +149,7 @@ public class GameService {
     }
 
     public Game toggleFlag(int x, int y) {
-        if (isWithinBounds(game, x, y) && !game.getCell(x, y).isRevealed()) {
+        if (game.isWithinBounds(x, y) && !game.getCell(x, y).isRevealed()) {
             game.getCell(x, y).setFlagged(!game.getCell(x, y).isFlagged());
         }
 
@@ -164,16 +168,11 @@ public class GameService {
     }
 
     void placeMine(int x, int y) {
-        if (!isWithinBounds(game, x, y)) {
+        if (!game.isWithinBounds(x, y)) {
             return;
         }
         game.getCell(x, y).setMine(true);
 
         // TODO adjacent mines of cell must be updated as well (see Cell.getAdjacentMines())
     }
-
-    public int countMines() {
-        return game.countMines();
-    }
-
 }
