@@ -166,13 +166,4 @@ public class GameService {
         }
         return true;
     }
-
-    void placeMine(int x, int y) {
-        if (!game.isWithinBounds(x, y)) {
-            return;
-        }
-        game.getCell(x, y).setMine(true);
-
-        // TODO adjacent mines of cell must be updated as well (see Cell.getAdjacentMines())
-    }
 }
