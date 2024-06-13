@@ -28,9 +28,9 @@ public class GameController {
     }
 
     public static void printBoard(Cell[][] cells) {
-        for (int x = 0; x < cells.length; x++) {
-            for (int y = 0; y < cells[x].length; y++) {
-                printCell(cells[x][y]);
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                printCell(value);
                 System.out.print(" ");
             }
             System.out.println();

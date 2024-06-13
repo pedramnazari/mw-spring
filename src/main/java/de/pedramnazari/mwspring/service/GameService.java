@@ -23,16 +23,6 @@ public class GameService {
 
     private Game game;
 
-    public static void printBoard(Cell[][] cells) {
-        for (int y = 0; y < cells[0].length; y++) {
-            for (int x = 0; x < cells.length; x++) {
-                printCell(cells[x][y]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
-
     public static void printCell(Cell cell) {
         if (cell.isMine()) {
                 System.out.print("M");
@@ -47,7 +37,7 @@ public class GameService {
         // TODO: use factory method pattern and dependency injection
         final Game g = new Game(rows, columns);
 
-        // TODO: delete field "game"
+        // TODO: refactor code to delete field "game"
         this.game = g;
 
         initializeBoard(game);

@@ -1,7 +1,6 @@
 package de.pedramnazari.mwspring.model;
 
 import de.pedramnazari.mwspring.service.GameService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -3,8 +3,6 @@ package de.pedramnazari.mwspring.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Game {
     private final Cell[][] board;
@@ -61,7 +59,7 @@ public class Game {
 
     public List<Cell> getMines() {
         final List<Cell> mineCells = new ArrayList<>();
-        
+
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.isMine()) {
