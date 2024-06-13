@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameServiceTest {
+    public static final int ROWS = 9;
+    public static final int COLUMNS = 10;
+    public static final int MINES = 25;
 
     private GameService gameService;
 
@@ -18,22 +21,18 @@ public class GameServiceTest {
 
     @Test
     public void testStartGame() {
-        final int rows = 9;
-        final int columns = 10;
-        final int mines = 25;
-
-        Game game = gameService.startGame(rows, columns, mines);
+        Game game = gameService.startGame(ROWS, COLUMNS, MINES);
 
         assertNotNull(game);
-        assertEquals(rows, game.getRows());
-        assertEquals(columns, game.getColumns());
-        assertEquals(mines, game.getMineCount());
+        assertEquals(ROWS, game.getRows());
+        assertEquals(COLUMNS, game.getColumns());
+        assertEquals(MINES, game.getMineCount());
 
         // Test that board is fully filled with cells
         // that are neither revealed nor flagged
         final Cell[][] board = game.getBoard();
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
+        for (int i = 0; i < COLUMNS; i++) {
+            for (int j = 0; j < ROWS; j++) {
                 Cell cell = board[i][j];
                 assertNotNull(cell);
                 assertFalse(cell.isFlagged());
@@ -45,22 +44,34 @@ public class GameServiceTest {
 
     @Test
     public void testToggleFlag() {
-        final int rows = 9;
-        final int columns = 10;
-        final int mines = 25;
-
-        final Game game = gameService.startGame(rows, columns, mines);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
-        final Cell cell = game.getCell(5, 5);
+        final Cell cell = game.getCell(4, 5);
 
         assertFalse(cell.isFlagged());
 
-        gameService.toggleFlag(5, 5);
+        gameService.toggleFlag(4, 5);
         assertTrue(cell.isFlagged());
 
-        gameService.toggleFlag(5, 5);
+        gameService.toggleFlag(4, 5);
         assertFalse(cell.isFlagged());
+    }
+
+    @Test
+    public void testRevealCell() {
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        assertNotNull(game);
+
+        final Cell cell = game.getCell(4, 5);
+        assertFalse(cell.isRevealed());
+
+        gameService.revealCell(4, 5);
+        assertTrue(cell.isRevealed());
+
+        // Repeating the action does not have an impact
+        gameService.revealCell(4, 5);
+        assertTrue(cell.isRevealed());
     }
 
 
