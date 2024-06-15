@@ -19,7 +19,7 @@ public class Game {
     }
 
     public Cell getCell(int row, int column) {
-        if (!isWithinBounds(column, row)) {
+        if (!isWithinBounds(row, column)) {
             return null;
         }
 
@@ -34,7 +34,7 @@ public class Game {
         return board[0].length;
     }
 
-    public boolean isWithinBounds(int column, int row) {
+    public boolean isWithinBounds(int row, int column) {
         return ((row >= 0) && (row < getRows()) && (column >= 0) && (column < getColumns()));
     }
 

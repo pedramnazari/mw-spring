@@ -23,7 +23,7 @@ public class GameServiceTest {
 
     @Test
     public void testStartGame() {
-        Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        Game game = gameService.startGame(ROWS, COLUMNS, MINES);
 
         assertNotNull(game);
         assertEquals(ROWS, game.getRows());
@@ -48,39 +48,39 @@ public class GameServiceTest {
 
     @Test
     public void testToggleFlag() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         final Cell cell = game.getCell(5, 4);
 
         assertFalse(cell.isFlagged());
 
-        gameService.toggleFlag(4, 5);
+        gameService.toggleFlag(5, 4);
         assertTrue(cell.isFlagged());
 
-        gameService.toggleFlag(4, 5);
+        gameService.toggleFlag(5, 4);
         assertFalse(cell.isFlagged());
     }
 
     @Test
     public void testRevealCell() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         final Cell cell = game.getCell(5, 4);
         assertFalse(cell.isRevealed());
 
-        gameService.revealCell(4, 5);
+        gameService.revealCell(5, 4);
         assertTrue(cell.isRevealed());
 
         // Repeating the action does not have an impact
-        gameService.revealCell(4, 5);
+        gameService.revealCell(5, 4);
         assertTrue(cell.isRevealed());
     }
 
     @Test
     public void testGameLost() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         assertFalse(game.isGameOver());
@@ -91,7 +91,7 @@ public class GameServiceTest {
 
         Cell firstMineCell = mineCells.get(0);
 
-        gameService.revealCell(firstMineCell.getColumn(), firstMineCell.getRow());
+        gameService.revealCell(firstMineCell.getRow(), firstMineCell.getColumn());
         assertTrue(game.isGameOver());
         assertFalse(game.isGameWon());
     }
@@ -99,7 +99,7 @@ public class GameServiceTest {
 
     @Test
     public void testGameWon() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         assertFalse(game.isGameOver());
@@ -108,7 +108,7 @@ public class GameServiceTest {
         for (Cell[] cells : game.getBoard()) {
             for (Cell cell : cells) {
                 if (!cell.isMine()) {
-                    gameService.revealCell(cell.getColumn(), cell.getRow());
+                    gameService.revealCell(cell.getRow(), cell.getColumn());
                 }
             }
         }

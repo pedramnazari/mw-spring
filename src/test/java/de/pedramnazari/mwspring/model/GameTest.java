@@ -24,27 +24,27 @@ public class GameTest {
 
     @Test
     public void testIsWithinBounds() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         // within bounds
         assertTrue(game.isWithinBounds(0, 0));
-        assertTrue(game.isWithinBounds(0, 1));
         assertTrue(game.isWithinBounds(1, 0));
-        assertTrue(game.isWithinBounds(game.getColumns()-1, 0));
-        assertTrue(game.isWithinBounds(0, game.getRows()-1));
-        assertTrue(game.isWithinBounds(game.getColumns()-1, game.getRows()-1));
+        assertTrue(game.isWithinBounds(0, 1));
+        assertTrue(game.isWithinBounds(0, game.getColumns()-1));
+        assertTrue(game.isWithinBounds(game.getRows()-1, 0));
+        assertTrue(game.isWithinBounds(game.getRows()-1, game.getColumns()-1));
 
         // outside bounds
-        assertFalse(game.isWithinBounds(-1, 0));
         assertFalse(game.isWithinBounds(0, -1));
-        assertFalse(game.isWithinBounds(game.getColumns(), 0));
-        assertFalse(game.isWithinBounds(0, game.getRows()));
+        assertFalse(game.isWithinBounds(-1, 0));
+        assertFalse(game.isWithinBounds(0, game.getColumns()));
+        assertFalse(game.isWithinBounds(game.getRows(), 0));
     }
 
     @Test
     public void testGetMineCount() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         assertEquals(5, game.getMines().size());
@@ -52,7 +52,7 @@ public class GameTest {
 
     @Test
     public void testGetMines() {
-        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
+        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
         assertNotNull(game);
 
         List<Cell> mineCells = game.getMines();

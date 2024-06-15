@@ -33,9 +33,9 @@ class GameControllerTest {
     void setUp() {
         game = new Game(10, 10);
 
-        for (int x = 0; x < game.getColumns(); x++) {
-            for (int y = 0; y < game.getRows(); y++) {
-                game.setCell(y, x, new Cell(y, x));
+        for (int row = 0; row < game.getRows(); row++) {
+            for (int column = 0; column < game.getColumns(); column++) {
+                game.setCell(row, column, new Cell(row, column));
             }
         }
     }
@@ -45,8 +45,8 @@ class GameControllerTest {
         when(gameService.startGame(anyInt(), anyInt(), anyInt())).thenReturn(game);
 
         mockMvc.perform(get("/api/game/start")
-                        .param("columns", "10")
                         .param("rows", "10")
+                        .param("columns", "10")
                         .param("mines", "15")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -60,13 +60,13 @@ class GameControllerTest {
         when(gameService.revealCell(anyInt(), anyInt())).thenReturn(game);
 
         mockMvc.perform(get("/api/game/reveal")
-                        .param("column", "1")
                         .param("row", "0")
+                        .param("column", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(gameService).revealCell(1, 0);
+        verify(gameService).revealCell(0, 1);
     }
 
     @Test
@@ -74,13 +74,13 @@ class GameControllerTest {
         when(gameService.toggleFlag(anyInt(), anyInt())).thenReturn(game);
 
         mockMvc.perform(post("/api/game/flag")
-                        .param("column", "0")
                         .param("row", "1")
+                        .param("column", "0")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(gameService).toggleFlag(0, 1);
+        verify(gameService).toggleFlag(1, 0);
     }
 }
 
