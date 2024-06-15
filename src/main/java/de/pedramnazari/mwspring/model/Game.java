@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: x and y are not always consistent in terms of row and column
 public class Game {
     private final Cell[][] board;
     private boolean gameOver;

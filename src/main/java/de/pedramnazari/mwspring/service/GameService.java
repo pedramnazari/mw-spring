@@ -144,4 +144,8 @@ public class GameService {
         }
         return true;
     }
+
+    public Game getGame() {
+        return game;
+    }
 }

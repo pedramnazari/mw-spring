@@ -1,3 +1,4 @@
+// TODO: Make more efficient. Currently complete board is re-rendered, if one cell is reveal
 function renderGame(game) {
     const gameContainer = document.getElementById("game-container");
 
@@ -58,6 +59,6 @@ function startGame() {
         .catch(error => console.error('Error:', error));
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     startGame();
 });
