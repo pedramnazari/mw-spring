@@ -45,7 +45,7 @@ class GameControllerTest {
     void testStartGame() throws Exception {
         when(gameService.startGame(anyInt(), anyInt(), anyInt())).thenReturn(game);
 
-        final MvcResult result = mockMvc.perform(get("/api/game/start")
+        mockMvc.perform(get("/api/game/start")
                         .param("columns", "10")
                         .param("rows", "10")
                         .param("mines", "15")
@@ -60,7 +60,7 @@ class GameControllerTest {
     void testRevealCell() throws Exception {
         when(gameService.revealCell(anyInt(), anyInt())).thenReturn(game);
 
-        final MvcResult result = mockMvc.perform(get("/api/game/reveal")
+        mockMvc.perform(get("/api/game/reveal")
                         .param("column", "1")
                         .param("row", "0")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -74,7 +74,7 @@ class GameControllerTest {
     void testToggleFlag() throws Exception {
         when(gameService.toggleFlag(anyInt(), anyInt())).thenReturn(game);
 
-        final MvcResult result = mockMvc.perform(post("/api/game/flag")
+        mockMvc.perform(post("/api/game/flag")
                         .param("column", "0")
                         .param("row", "1")
                         .contentType(MediaType.APPLICATION_JSON))
