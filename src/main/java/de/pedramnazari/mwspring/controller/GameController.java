@@ -20,9 +20,9 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping("/start")
-    public ResponseEntity<Game> startGame(@RequestParam int rows, @RequestParam int columns, @RequestParam int mines) {
+    public ResponseEntity<Game> startGame(@RequestParam int columns, @RequestParam int rows, @RequestParam int mines) {
         logger.log(Level.INFO, "Start the Game: " + rows + " x " + columns + " mines: " + mines);
-        Game game = gameService.startGame(rows, columns, mines);
+        Game game = gameService.startGame(columns, rows, mines);
         printBoard(game.getBoard());
         return ResponseEntity.ok(game);
     }
@@ -46,12 +46,12 @@ public class GameController {
     }
 
     @GetMapping("/reveal")
-    public ResponseEntity<Game> revealCell(@RequestParam int row, @RequestParam int column) {
-        return ResponseEntity.ok(gameService.revealCell(row, column));
+    public ResponseEntity<Game> revealCell(@RequestParam int column, @RequestParam int row) {
+        return ResponseEntity.ok(gameService.revealCell(column, row));
     }
 
     @PostMapping("/flag")
-    public Game toggleFlag(@RequestParam int row, @RequestParam int column) {
-        return gameService.toggleFlag(row, column);
+    public Game toggleFlag(@RequestParam int column, @RequestParam int row) {
+        return gameService.toggleFlag(column, row);
     }
 }
