@@ -1,9 +1,7 @@
 package de.pedramnazari.mwspring.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pedramnazari.mwspring.model.Game;
 import de.pedramnazari.mwspring.service.GameService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -26,11 +23,6 @@ public class GameControllerAndGameServiceIntegrationTest {
 
     @Autowired
     private GameService gameService;
-
-
-    @BeforeEach
-    public void setUp() throws Exception {
-    }
 
     @Test
     public void testGetGame() throws Exception {
