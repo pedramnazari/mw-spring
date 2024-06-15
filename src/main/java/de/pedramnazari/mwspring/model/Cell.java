@@ -1,6 +1,5 @@
 package de.pedramnazari.mwspring.model;
 
-// TODO: x and y are not always consistent in terms of row and column
 public class Cell {
     private final int column;
     private final int row;

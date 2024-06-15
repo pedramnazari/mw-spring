@@ -1,15 +1,15 @@
 // TODO: Make more efficient. Currently complete board is re-rendered, if one cell is reveal
-function renderGame(game) {
+function renderGame(board) {
     const gameContainer = document.getElementById("game-container");
 
-    if (!game || game.length === 0) {
+    if (!board || board.length === 0) {
         console.error('Game data is empty or undefined');
         return;
     }
 
-    console.log(game);
+    console.log(board);
     gameContainer.innerHTML = "";
-    game.forEach((row, rowIndex) => {
+    board.forEach((row, rowIndex) => {
         const rowDiv = document.createElement("div");
         rowDiv.className = "row";
         row.forEach((cell, colIndex) => {
@@ -34,7 +34,7 @@ function renderGame(game) {
 
 function revealCell(x, y) {
     console.log(`Revealing cell at (${x}, ${y})`);
-    fetch(`/api/game/reveal?column=${x}&row=${y}`, {
+    fetch(`/api/game/reveal?row=${y}&column=${x}`, {
         method: "GET"
     })
         .then(response => response.json())
@@ -44,11 +44,11 @@ function revealCell(x, y) {
 }
 
 function startGame() {
-    const columns = document.getElementById('columns').value;
     const rows = document.getElementById('rows').value;
+    const columns = document.getElementById('columns').value;
     const mines = document.getElementById('mines').value;
 
-    fetch(`/api/game/start?columns=${columns}&rows=${rows}&mines=${mines}`, {
+    fetch(`/api/game/start?rows=${rows}&columns=${columns}&mines=${mines}`, {
         method: "GET"
     })
         .then(response => response.json())
