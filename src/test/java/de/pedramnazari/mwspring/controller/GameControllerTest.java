@@ -35,7 +35,7 @@ class GameControllerTest {
 
         for (int x = 0; x < game.getColumns(); x++) {
             for (int y = 0; y < game.getRows(); y++) {
-                game.setCell(x, y, new Cell(x, y));
+                game.setCell(y, x, new Cell(y, x));
             }
         }
     }

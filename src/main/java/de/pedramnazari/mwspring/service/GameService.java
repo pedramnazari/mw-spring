@@ -27,7 +27,7 @@ public class GameService {
         // TODO: add checks
 
         // TODO: use factory method pattern and dependency injection
-        final Game g = new Game(columns, rows);
+        final Game g = new Game(rows, columns);
 
         // TODO: refactor code to delete field "game"
         this.game = g;
@@ -40,9 +40,9 @@ public class GameService {
     }
 
     void initializeBoard(final Game game) {
-        for (int x = 0; x < game.getColumns(); x++) {
-            for (int y = 0; y < game.getRows(); y++) {
-                game.setCell(x, y, new Cell(x, y));
+        for (int column = 0; column < game.getColumns(); column++) {
+            for (int row = 0; row < game.getRows(); row++) {
+                game.setCell(row, column, new Cell(row, column));
             }
         }
     }
@@ -53,8 +53,8 @@ public class GameService {
         while (placedMines < mineCount) {
             int x = random.nextInt(game.getColumns());
             int y = random.nextInt(game.getRows());
-            if (!game.getCell(x,y).isMine()) {
-                game.getCell(x,y).setMine(true);
+            if (!game.getCell(y, x).isMine()) {
+                game.getCell(y, x).setMine(true);
                 placedMines++;
             }
         }
@@ -63,9 +63,9 @@ public class GameService {
     private void calculateAdjacentMines(final Game game) {
         for (int x = 0; x < game.getColumns(); x++) {
             for (int y = 0; y < game.getRows(); y++) {
-                if (!game.getCell(x, y).isMine()) {
+                if (!game.getCell(y, x).isMine()) {
                     int adjacentMines = countAdjacentMines(game, x, y);
-                    game.getCell(x, y).setAdjacentMines(adjacentMines);
+                    game.getCell(y, x).setAdjacentMines(adjacentMines);
                 }
             }
         }
@@ -77,7 +77,7 @@ public class GameService {
         for (int[] direction : DIRECTIONS) {
             int nx = x + direction[0];
             int ny = y + direction[1];
-            if (game.isWithinBounds(nx, ny) && game.getCell(nx, ny).isMine()) {
+            if (game.isWithinBounds(nx, ny) && game.getCell(ny, nx).isMine()) {
                 count++;
             }
         }
@@ -88,12 +88,12 @@ public class GameService {
     public Game revealCell(int x, int y) {
         if (game.isGameOver()
                 || !game.isWithinBounds(x, y)
-                || game.getCell(x, y).isRevealed()
-                || game.getCell(x, y).isFlagged()) {
+                || game.getCell(y, x).isRevealed()
+                || game.getCell(y, x).isFlagged()) {
             return game;
         }
 
-        Cell cell = game.getCell(x, y);
+        Cell cell = game.getCell(y, x);
         cell.setRevealed(true);
 
         if (cell.isMine()) {
@@ -127,8 +127,8 @@ public class GameService {
     }
 
     public Game toggleFlag(int x, int y) {
-        if (game.isWithinBounds(x, y) && !game.getCell(x, y).isRevealed()) {
-            game.getCell(x, y).setFlagged(!game.getCell(x, y).isFlagged());
+        if (game.isWithinBounds(x, y) && !game.getCell(y, x).isRevealed()) {
+            game.getCell(y, x).setFlagged(!game.getCell(y, x).isFlagged());
         }
 
         return game;
@@ -137,7 +137,7 @@ public class GameService {
     boolean allNonMineCellsRevealed() {
         for (int x = 0; x < game.getColumns(); x++) {
             for (int y = 0; y < game.getRows(); y++) {
-                if (!game.getCell(x, y).isMine() && !game.getCell(x, y).isRevealed()) {
+                if (!game.getCell(y, x).isMine() && !game.getCell(y, x).isRevealed()) {
                     return false;
                 }
             }

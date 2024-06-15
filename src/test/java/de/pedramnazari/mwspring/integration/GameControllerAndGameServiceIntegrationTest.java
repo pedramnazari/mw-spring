@@ -46,7 +46,7 @@ public class GameControllerAndGameServiceIntegrationTest {
         assertEquals(3, game.getColumns());
 
 
-        assertFalse(game.getCell(0, 1).isRevealed());
+        assertFalse(game.getCell(1, 0).isRevealed());
 
         mockMvc.perform(get("/api/game/reveal")
                         .param("row", "0")
@@ -54,7 +54,7 @@ public class GameControllerAndGameServiceIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        assertTrue(game.getCell(1, 0).isRevealed());
+        assertTrue(game.getCell(0, 1).isRevealed());
     }
 
 }

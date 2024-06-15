@@ -1,17 +1,18 @@
 package de.pedramnazari.mwspring.model;
 
+// TODO: x and y are not always consistent in terms of row and column
 public class Cell {
-    private final int x;
-    private final int y;
+    private final int column;
+    private final int row;
 
     private boolean isMine;
     private boolean isRevealed;
     private boolean isFlagged;
     private int adjacentMines;
 
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Cell(int row, int column) {
+        this.row = row;
+        this.column = column;
 
         this.isMine = false;
         this.isRevealed = false;
@@ -51,11 +52,11 @@ public class Cell {
         this.adjacentMines = adjacentMines;
     }
 
-    public int getX() {
-        return x;
+    public int getColumn() {
+        return column;
     }
 
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
     }
 }

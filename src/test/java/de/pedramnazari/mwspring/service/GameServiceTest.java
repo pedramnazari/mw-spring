@@ -37,8 +37,8 @@ public class GameServiceTest {
             for (int j = 0; j < ROWS; j++) {
                 Cell cell = board[i][j];
                 assertNotNull(cell);
-                assertEquals(i, cell.getX());
-                assertEquals(j, cell.getY());
+                assertEquals(i, cell.getColumn());
+                assertEquals(j, cell.getRow());
                 assertFalse(cell.isFlagged());
                 assertFalse(cell.isRevealed());
             }
@@ -51,7 +51,7 @@ public class GameServiceTest {
         final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
-        final Cell cell = game.getCell(4, 5);
+        final Cell cell = game.getCell(5, 4);
 
         assertFalse(cell.isFlagged());
 
@@ -67,7 +67,7 @@ public class GameServiceTest {
         final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
-        final Cell cell = game.getCell(4, 5);
+        final Cell cell = game.getCell(5, 4);
         assertFalse(cell.isRevealed());
 
         gameService.revealCell(4, 5);
@@ -91,7 +91,7 @@ public class GameServiceTest {
 
         Cell firstMineCell = mineCells.get(0);
 
-        gameService.revealCell(firstMineCell.getX(), firstMineCell.getY());
+        gameService.revealCell(firstMineCell.getColumn(), firstMineCell.getRow());
         assertTrue(game.isGameOver());
         assertFalse(game.isGameWon());
     }
@@ -108,7 +108,7 @@ public class GameServiceTest {
         for (Cell[] cells : game.getBoard()) {
             for (Cell cell : cells) {
                 if (!cell.isMine()) {
-                    gameService.revealCell(cell.getX(), cell.getY());
+                    gameService.revealCell(cell.getColumn(), cell.getRow());
                 }
             }
         }

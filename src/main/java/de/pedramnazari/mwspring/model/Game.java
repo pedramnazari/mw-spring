@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO: x and y are not always consistent in terms of row and column
 public class Game {
+    // TODO: swap row and column
     private final Cell[][] board;
     private boolean gameOver;
     private boolean gameWon;
 
-    public Game(int columns, int rows) {
+    public Game(int rows, int columns) {
         this.board = new Cell[columns][rows];
     }
 
-    public void setCell(int x, int y, Cell cell) {
-        this.board[x][y] = cell;
+    public void setCell(int row, int column, Cell cell) {
+        this.board[column][row] = cell;
     }
 
-    public Cell getCell(int x, int y) {
-        if (!isWithinBounds(x, y)) {
+    public Cell getCell(int row, int column) {
+        if (!isWithinBounds(column, row)) {
             return null;
         }
 
-        return board[x][y];
+        return board[column][row];
     }
 
     public int getColumns() {
@@ -34,8 +34,8 @@ public class Game {
         return board[0].length;
     }
 
-    public boolean isWithinBounds(int x, int y) {
-        return ((x >= 0) && (y >= 0) && (x < getColumns()) && (y < getRows()));
+    public boolean isWithinBounds(int column, int row) {
+        return ((row >= 0) && (row < getRows()) && (column >= 0) && (column < getColumns()));
     }
 
     public Cell[][] getBoard() {
@@ -72,3 +72,5 @@ public class Game {
         return mineCells;
     }
 }
+
+
