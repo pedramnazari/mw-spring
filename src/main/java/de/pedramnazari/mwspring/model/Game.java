@@ -5,17 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Game {
-    // TODO: swap row and column
     private final Cell[][] board;
     private boolean gameOver;
     private boolean gameWon;
 
     public Game(int rows, int columns) {
-        this.board = new Cell[columns][rows];
+        this.board = new Cell[rows][columns];
     }
 
     public void setCell(int row, int column, Cell cell) {
-        this.board[column][row] = cell;
+        this.board[row][column] = cell;
     }
 
     public Cell getCell(int row, int column) {
@@ -23,15 +22,15 @@ public class Game {
             return null;
         }
 
-        return board[column][row];
+        return board[row][column];
     }
 
     public int getColumns() {
-        return board.length;
+        return board[0].length;
     }
 
     public int getRows() {
-        return board[0].length;
+        return board.length;
     }
 
     public boolean isWithinBounds(int row, int column) {

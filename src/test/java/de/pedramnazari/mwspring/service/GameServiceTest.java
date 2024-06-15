@@ -33,12 +33,12 @@ public class GameServiceTest {
         // Test that board is fully filled with cells
         // that are neither revealed nor flagged
         final Cell[][] board = game.getBoard();
-        for (int i = 0; i < COLUMNS; i++) {
-            for (int j = 0; j < ROWS; j++) {
-                Cell cell = board[i][j];
+        for (int j = 0; j < ROWS; j++) {
+            for (int i = 0; i < COLUMNS; i++) {
+                Cell cell = board[j][i];
                 assertNotNull(cell);
-                assertEquals(i, cell.getColumn());
                 assertEquals(j, cell.getRow());
+                assertEquals(i, cell.getColumn());
                 assertFalse(cell.isFlagged());
                 assertFalse(cell.isRevealed());
             }
