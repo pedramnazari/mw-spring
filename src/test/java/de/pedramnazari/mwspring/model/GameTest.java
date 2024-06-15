@@ -24,7 +24,7 @@ public class GameTest {
 
     @Test
     public void testIsWithinBounds() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         // within bounds
@@ -44,7 +44,7 @@ public class GameTest {
 
     @Test
     public void testGetMineCount() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         assertEquals(5, game.getMines().size());
@@ -52,7 +52,7 @@ public class GameTest {
 
     @Test
     public void testGetMines() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         List<Cell> mineCells = game.getMines();

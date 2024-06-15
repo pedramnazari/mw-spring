@@ -23,7 +23,7 @@ public class GameServiceTest {
 
     @Test
     public void testStartGame() {
-        Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        Game game = gameService.startGame(COLUMNS, ROWS, MINES);
 
         assertNotNull(game);
         assertEquals(ROWS, game.getRows());
@@ -48,7 +48,7 @@ public class GameServiceTest {
 
     @Test
     public void testToggleFlag() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         final Cell cell = game.getCell(4, 5);
@@ -64,7 +64,7 @@ public class GameServiceTest {
 
     @Test
     public void testRevealCell() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         final Cell cell = game.getCell(4, 5);
@@ -80,7 +80,7 @@ public class GameServiceTest {
 
     @Test
     public void testGameLost() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         assertFalse(game.isGameOver());
@@ -99,7 +99,7 @@ public class GameServiceTest {
 
     @Test
     public void testGameWon() {
-        final Game game = gameService.startGame(ROWS, COLUMNS, MINES);
+        final Game game = gameService.startGame(COLUMNS, ROWS, MINES);
         assertNotNull(game);
 
         assertFalse(game.isGameOver());

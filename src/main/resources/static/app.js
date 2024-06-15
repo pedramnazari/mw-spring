@@ -1,3 +1,4 @@
+// TODO: Make more efficient. Currently complete board is re-rendered, if one cell is reveal
 function renderGame(game) {
     const gameContainer = document.getElementById("game-container");
 
@@ -6,7 +7,7 @@ function renderGame(game) {
         return;
     }
 
-    console.log(game); // Ausgabe des Spielfelds
+    console.log(game);
     gameContainer.innerHTML = "";
     game.forEach((row, rowIndex) => {
         const rowDiv = document.createElement("div");
@@ -24,7 +25,7 @@ function renderGame(game) {
                     cellDiv.innerHTML = cell.adjacentMines;
                 }
             }
-            cellDiv.addEventListener("click", () => revealCell(rowIndex, colIndex));
+            cellDiv.addEventListener("click", () => revealCell(colIndex, rowIndex));
             rowDiv.appendChild(cellDiv);
         });
         gameContainer.appendChild(rowDiv);
@@ -32,8 +33,8 @@ function renderGame(game) {
 }
 
 function revealCell(x, y) {
-    console.log(`Revealing cell at (${x}, ${y})`); // Logge die Koordinaten
-    fetch(`/api/game/reveal?row=${x}&column=${y}`, {
+    console.log(`Revealing cell at (${x}, ${y})`);
+    fetch(`/api/game/reveal?column=${x}&row=${y}`, {
         method: "GET"
     })
         .then(response => response.json())
@@ -43,22 +44,21 @@ function revealCell(x, y) {
 }
 
 function startGame() {
-    const rows = document.getElementById('rows').value;
     const columns = document.getElementById('columns').value;
+    const rows = document.getElementById('rows').value;
     const mines = document.getElementById('mines').value;
 
-    fetch(`/api/game/start?rows=${rows}&columns=${columns}&mines=${mines}`, {
+    fetch(`/api/game/start?columns=${columns}&rows=${rows}&mines=${mines}`, {
         method: "GET"
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Ausgabe der empfangenen Daten
+            console.log(data);
             renderGame(data.board);
         })
         .catch(error => console.error('Error:', error));
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialisiere das Spiel beim Laden der Seite
+document.addEventListener("DOMContentLoaded", function () {
     startGame();
 });

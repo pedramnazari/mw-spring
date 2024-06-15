@@ -23,11 +23,11 @@ public class GameService {
 
     private Game game;
 
-    public Game startGame(int rows, int columns, int mineCount) {
+    public Game startGame(int columns, int rows, int mineCount) {
         // TODO: add checks
 
         // TODO: use factory method pattern and dependency injection
-        final Game g = new Game(rows, columns);
+        final Game g = new Game(columns, rows);
 
         // TODO: refactor code to delete field "game"
         this.game = g;
@@ -41,13 +41,9 @@ public class GameService {
 
     void initializeBoard(final Game game) {
         for (int x = 0; x < game.getColumns(); x++) {
-            initializeRow(game, x);
-        }
-    }
-
-    void initializeRow(final Game game, int x) {
-        for (int y = 0; y < game.getRows(); y++) {
-            game.setCell(x, y, new Cell(x, y));
+            for (int y = 0; y < game.getRows(); y++) {
+                game.setCell(x, y, new Cell(x, y));
+            }
         }
     }
 
@@ -147,5 +143,9 @@ public class GameService {
             }
         }
         return true;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

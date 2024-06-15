@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: x and y are not always consistent in terms of row and column
 public class Game {
     private final Cell[][] board;
     private boolean gameOver;
     private boolean gameWon;
 
-    public Game(int rows, int columns) {
+    public Game(int columns, int rows) {
         this.board = new Cell[columns][rows];
     }
 
